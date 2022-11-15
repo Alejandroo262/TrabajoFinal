@@ -14,6 +14,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -44,5 +47,11 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.php" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="239" y="23" width="802" height="738" key="new project wizard" timestamp="1668006522109">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="239" y="23" width="802" height="738" key="new project wizard/0.0.1280.800@0.0.1280.800" timestamp="1668006522109" />
   </component>
 </project>
