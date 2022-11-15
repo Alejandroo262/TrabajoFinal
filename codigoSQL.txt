@@ -1,0 +1,149 @@
+CREATE DATABASE IF NOT EXISTS proyecto_torrealedua;
+CREATE TABLE IF NOT EXISTS grupo(
+	id CHAR(5),
+	nombre VARCHAR(25) NOT NULL,
+	
+	PRIMARY KEY (id)
+	
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS rol(
+	nombre CHAR(15),
+	fecha_alta DATETIME NOT NULL,
+	fecha_baja DATETIME NULL,
+	
+	PRIMARY KEY(nombre),
+	UNIQUE KEY (fecha_alta)
+	
+	
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS chat(
+	id CHAR(5),
+	mensaje VARCHAR(700) NOT NULL,
+	fecha_envio DATETIME,
+	
+	PRIMARY KEY(id)
+
+
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS tecnico(
+	email CHAR(40),
+	nombre VARCHAR(35) NOT NULL,
+	apellido_1 VARCHAR(35) NOT NULL,
+	apellido_2 VARCHAR(35) NULL,
+	clave VARCHAR(65) NOT NULL,
+	telefono VARCHAR(15) NULL,
+	foto VARCHAR(50) NULL,
+	id_rol_nombre CHAR(15) NOT NULL,
+	id_rol_fecha_alta DATETIME NOT NULL,
+	id_grupo_id CHAR(5) NOT NULL,
+	
+		
+	PRIMARY KEY(email),
+	CONSTRAINT FK_tecnico_rol_nombre FOREIGN KEY (id_rol_nombre) REFERENCES rol(nombre) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT FK_tecnico_grupo_id FOREIGN KEY (id_grupo_id) REFERENCES grupo(id) ON UPDATE CASCADE ON DELETE CASCADE
+
+
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS tener(
+	id_tecnico CHAR(40),
+	id_chat CHAR(5) NOT NULL,
+	
+	PRIMARY KEY(id_tecnico),
+	
+	UNIQUE KEY (id_chat),
+	
+	CONSTRAINT FK_tener_tecnico_email FOREIGN KEY (id_tecnico) REFERENCES tecnico(email) ON UPDATE CASCADE ON DELETE CASCADE
+
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS usuario(
+	dni CHAR(9),
+	nombre VARCHAR(35) NOT NULL,
+	apellido_1 VARCHAR(35) NOT NULL,
+	apellido_2 VARCHAR(35) NULL,
+	fecha_nacimiento DATETIME NOT NULL,
+	provincia VARCHAR(35) NULL,
+	localidad VARCHAR(35) NULL,
+	telefono VARCHAR(15) NULL,
+	aficiones VARCHAR(300) NULL,
+	observaciones VARCHAR(2000) NULL,
+	PRIMARY KEY(dni)
+
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS hombre(
+	id_usuario CHAR(9),
+	
+	PRIMARY KEY(id_usuario),
+	
+	CONSTRAINT FK_hombre_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(dni) ON UPDATE CASCADE ON DELETE CASCADE
+	
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS mujer(
+	id_usuario CHAR(9),
+	
+	PRIMARY KEY(id_usuario),
+	
+	CONSTRAINT FK_mujer_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(dni) ON UPDATE CASCADE ON DELETE CASCADE
+	
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS ver_perfil(
+	id_tecnico CHAR(40),
+	id_usuario CHAR(9) NOT NULL,
+	
+	PRIMARY KEY(id_tecnico),
+	
+	UNIQUE KEY (id_usuario),
+	
+	CONSTRAINT FK_ver_perfil_tecnico FOREIGN KEY (id_tecnico) REFERENCES tecnico(email) ON UPDATE CASCADE ON DELETE CASCADE
+	
+
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+
+CREATE TABLE IF NOT EXISTS llamada(
+	id CHAR(5),
+	fecha_inicio DATETIME NULL,
+	fecha_fin DATETIME NULL,
+	valoracion CHAR(2) NOT NULL,
+	estado VARCHAR(200) NOT NULL,
+	id_usuario CHAR(9) NOT NULL,
+	
+	PRIMARY KEY(id),
+	UNIQUE KEY(id_usuario),
+	CONSTRAINT FK_llamada_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(dni) ON UPDATE CASCADE ON DELETE CASCADE
+	
+	
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+CREATE TABLE IF NOT EXISTS evento(
+	id CHAR(5),
+	titulo VARCHAR(50) NOT NULL,
+	inicio DATETIME NOT NULL,
+	fin DATETIME NOT NULL,
+	descripcion VARCHAR(200) NULL,
+	id_tecnico CHAR(40) NOT NULL,
+	id_usuario CHAR(9) NOT NULL,
+	
+	PRIMARY KEY(id),
+	CONSTRAINT FK_evento_tecnico FOREIGN KEY (id_tecnico) REFERENCES tecnico(email) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT FK_evento_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(dni) ON UPDATE CASCADE ON DELETE CASCADE
+	
+)CHARACTER SET=utf8 COLLATE=utf8_general_ci ENGINE INNODB;
+
+	
+	
